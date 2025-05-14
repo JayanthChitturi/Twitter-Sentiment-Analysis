@@ -9,11 +9,11 @@ import logging
 import numpy as np
 import gc
 
-# Setup logging
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-# Model paths
+
 MODEL_PATHS = {
     "BERT Normal 2k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/bert_2160_normal",
     "BERT Swapped 2k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/bert_2160_swapped",
@@ -22,11 +22,11 @@ MODEL_PATHS = {
     "BERT Normal 4k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/bert_4160_normal",
     "BERT Swapped 4k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/bert_4160_swapped",
     "RoBERTa Normal 4k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/roberta_4160_normal",
-    "RoBERTa Swapped 4k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/test/model_Rswapped_4160",
-    "BERT Normal 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/Twitter-Sentiment-Analysis/bert_normal",
-    "BERT Swapped 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/Twitter-Sentiment-Analysis/bert_swapped",
-    "RoBERTa Normal 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/test/model_Rnormal_8320",
-    "RoBERTa Swapped 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/test/model_Rswapped_8320",
+    "RoBERTa Swapped 4k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/roberta_4160_swapped",
+    "BERT Normal 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/bert_8320_normal",
+    "BERT Swapped 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/bert_8320_swapped",
+    "RoBERTa Normal 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/roberta_8320_normal",
+    "RoBERTa Swapped 8k": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/roberta_8320_swapped",
 }
 
 
@@ -42,7 +42,7 @@ METRICS = {
 }
 
 
-# Load pipeline for a single model
+
 def load_pipeline(model_name, model_path):
     try:
         logger.info(f"Loading {model_name}...")
@@ -56,7 +56,7 @@ def load_pipeline(model_name, model_path):
         logger.error(f"Failed to load {model_name}: {e}")
         return None
 
-# Plot metrics
+
 def plot_metrics(metric_type, group_by):
     df = pd.DataFrame(METRICS)
     plt.figure(figsize=(14, 6))
@@ -80,7 +80,7 @@ def plot_metrics(metric_type, group_by):
     plt.close()
     return plot_path
 
-# Predict sentiment
+
 def predict_sentiment(tweet):
     if not tweet:
         return "Please enter a tweet."
@@ -110,11 +110,11 @@ def predict_sentiment(tweet):
                     torch.cuda.empty_cache()
     return pd.DataFrame(results).to_html()
 
-# Fine-tuning resistance
+
 def analyze_fine_tuning_resistance():
     df = pd.DataFrame(METRICS)
     
-    # Calculate variance
+    
     variance = []
     model_types = ["BERT Normal", "BERT Swapped", "RoBERTa Normal", "RoBERTa Swapped"]
     for model_type in model_types:
@@ -131,7 +131,7 @@ def analyze_fine_tuning_resistance():
     
     var_df = pd.DataFrame(variance)
     
-    # Plot variance
+    
     plt.figure(figsize=(10, 6))
     sns.barplot(x="Model Type", y="Accuracy Variance", data=var_df)
     plt.title("Accuracy Variance Across Dataset Sizes")
@@ -141,7 +141,7 @@ def analyze_fine_tuning_resistance():
     plt.savefig(var_plot_path)
     plt.close()
     
-    # Summary
+    
     most_stable = var_df.loc[var_df["Accuracy Variance"].idxmin()]["Model Type"]
     summary = f"**Fine-Tuning Resistance Analysis**\n\n"
     summary += "Resistance is measured by low variance in accuracy, F1, and eval_loss across dataset sizes (2k, 4k, 8k).\n"
@@ -149,7 +149,7 @@ def analyze_fine_tuning_resistance():
     summary += "- **Variance Table**:\n" + var_df.to_string(index=False)
     return summary, var_plot_path
 
-# Gradio interface
+
 def main():
     with gr.Blocks() as demo:
         gr.Markdown("# Twitter Airline Sentiment Analysis Dashboard")
