@@ -7,27 +7,27 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Load model and tokenizer
-model_path = "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/test/model_Rswapped_4160"
+print('Load model and tokenizer')
+model_path = "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/roberta_4160_swapped"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 model.eval()
 
-# Load normal test set
+print('Load swapped test set')
 dataset = load_dataset("csv", data_files={"test": "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/data_final/split_4160_test_swapped.csv"})
 test_dataset = dataset["test"]
 
-# Tokenization
+print('Tokenization')
 def preprocess(example):
     return tokenizer(example["text"], padding="max_length", truncation=True, max_length=128)
 
 test_dataset = test_dataset.map(preprocess, batched=True)
 test_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label'])
 
-# DataLoader
+print('Load test set')
 dataloader = DataLoader(test_dataset, batch_size=16)
 
-# Evaluation
+print('Evaluate model')
 all_preds = []
 all_labels = []
 
@@ -41,14 +41,14 @@ with torch.no_grad():
         all_preds.extend(preds)
         all_labels.extend(labels)
 
-# Metrics
-print("Classification Report (Normal Test Set):")
+print('Evaluation complete')
+print("Classification Report (Swapped Test Set):")
 print(classification_report(all_labels, all_preds))
 
-# Confusion Matrix
+print('Confusion Matrix (Swapped Test Set):')
 cm = confusion_matrix(all_labels, all_preds)
 sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
-plt.title("Confusion Matrix - Normal Test Set")
+plt.title("Confusion Matrix - RSwapped 4160 Test Set")
 plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.show()
