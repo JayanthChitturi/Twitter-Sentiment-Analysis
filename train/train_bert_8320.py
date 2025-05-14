@@ -17,7 +17,7 @@ def tokenize_function(examples, tokenizer):
 
 # Custom Trainer with corrected compute_loss
 class CustomTrainer(Trainer):
-    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):  # type: ignore[unused-argument]
+    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None): 
         labels = inputs.pop("labels").long()  # Convert to Long
         outputs = model(**inputs)
         logits = outputs.logits

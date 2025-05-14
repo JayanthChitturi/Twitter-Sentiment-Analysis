@@ -84,17 +84,17 @@ def train_model(model_type, model_name, train_file, dev_file, output_dir, label_
         "num_train_epochs": 3,
         "per_device_train_batch_size": 8,
         "per_device_eval_batch_size": 8,
-        "gradient_accumulation_steps": 2,  # Effective batch size 16
+        "gradient_accumulation_steps": 2,  
         "warmup_steps": 100,
         "weight_decay": 0.01,
         "logging_dir": f"{output_dir}/logs",
         "logging_steps": 10,
-        eval_key: "epoch",  # Dynamic eval strategy
+        eval_key: "epoch",  
         "save_strategy": "epoch",
         "load_best_model_at_end": True,
         "metric_for_best_model": "f1",
-        "fp16": True,  # Mixed precision for GTX 1050
-        "dataloader_num_workers": 0,  # Avoid multiprocessing issues
+        "fp16": True,  
+        "dataloader_num_workers": 0,  
         "max_grad_norm": 1.0
     }
     
@@ -122,7 +122,7 @@ def train_model(model_type, model_name, train_file, dev_file, output_dir, label_
     print(f"Saved {model_type} model to {output_dir}")
 
 
-# Run training for BERT and RoBERTa, normal and swapped labels
+
 models = [
     ("bert", "bert-base-uncased"),
     ("roberta", "roberta-base")

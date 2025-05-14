@@ -6,7 +6,7 @@ from datasets import Dataset
 
 def load_data(csv_path):
     df = pd.read_csv(csv_path)
-    df = df.rename(columns={'text': 'text', 'label': 'label'})  # Make sure these columns exist
+    df = df.rename(columns={'text': 'text', 'label': 'label'})  
     return Dataset.from_pandas(df)
 
 def tokenize_function(examples, tokenizer):
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     torch.cuda.empty_cache()
 
 
-    # Swapped dataset training (optional)
+    
     train_roberta(
         "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/data_final/split_4160_train_swapped.csv",
         "C:/Users/HP/TAM/Twitter-Sentiment-Analysis/models_final/roberta_4160_swapped"

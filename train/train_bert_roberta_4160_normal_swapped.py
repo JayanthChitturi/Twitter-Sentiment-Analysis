@@ -67,8 +67,8 @@ def train_model(model_type, model_name, train_file, dev_file, output_dir, label_
         return
     
     # Validate dataset size
-    expected_train_size = 3184  # ~80% of 3981
-    expected_dev_size = 398    # ~10% of 3981
+    expected_train_size = 3184 
+    expected_dev_size = 398   
     if len(train_df) < expected_train_size * 0.9 or len(dev_df) < expected_dev_size * 0.9:
         print(f"Warning: Train size {len(train_df)} (expected ~{expected_train_size}), Dev size {len(dev_df)} (expected ~{expected_dev_size}). Check dataset.")
     
@@ -90,7 +90,7 @@ def train_model(model_type, model_name, train_file, dev_file, output_dir, label_
         "num_train_epochs": 3,
         "per_device_train_batch_size": 8,
         "per_device_eval_batch_size": 8,
-        "gradient_accumulation_steps": 2,  # Effective batch size 16
+        "gradient_accumulation_steps": 2,  
         "warmup_steps": 100,
         "weight_decay": 0.01,
         "logging_dir": f"{output_dir}/logs",
